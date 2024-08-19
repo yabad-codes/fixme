@@ -18,6 +18,9 @@ public class RoutingTable {
 		BROKER, MARKET
 	}
 
+	/**
+	 * This class represents a routing table that stores information about the available routes in a network.
+	 */
 	public RoutingTable() {
 		routingTable = new ConcurrentHashMap<>();
 		random = new Random();
