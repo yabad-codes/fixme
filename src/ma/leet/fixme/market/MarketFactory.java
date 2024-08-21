@@ -9,8 +9,6 @@ public class MarketFactory {
 				return new ExchangeMarket();
 			case CRYPTO:
 				return new CryptoMarket();
-			case FUTURES:
-				return new FuturesMarket();
 			default:
 				throw new IllegalArgumentException("Unsupported market type: " + type);
 		}
