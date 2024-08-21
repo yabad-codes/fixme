@@ -1,0 +1,20 @@
+AAPL	Apple Inc.	179.93	134
+MSFT	Microsoft Corp.	349.76	894
+GOOGL	Alphabet Inc.	55.89	971
+AMZN	Amazon.com Inc.	189.94	400
+FB	Meta Platforms Inc.	305.72	807
+TSLA	Tesla Inc.	306.18	848
+NFLX	Netflix Inc.	440.91	958
+NVDA	NVIDIA Corp.	236.51	957
+BABA	Alibaba Group Holding Ltd.	417.43	83
+V	Visa Inc.	242.21	359
+JPM	JPMorgan Chase & Co.	270.62	418
+PYPL	PayPal Holdings Inc.	203.82	188
+DIS	The Walt Disney Co.	401.98	970
+MA	Mastercard Inc.	85.85	418
+INTC	Intel Corp.	365.96	337
+CSCO	Cisco Systems Inc.	380.44	593
+ADBE	Adobe Inc.	232.23	194
+ORCL	Oracle Corp.	321.61	835
+IBM	International Business Machines Corp.	299.89	697
+AMD	Advanced Micro Devices Inc.	77.11	293

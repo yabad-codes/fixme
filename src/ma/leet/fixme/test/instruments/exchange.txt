@@ -1,0 +1,20 @@
+EURUSD	Euro to US Dollar	1.4192	683689
+GBPUSD	British Pound to US Dollar	0.6685	404473
+USDJPY	US Dollar to Japanese Yen	1.5073	529920
+AUDUSD	Australian Dollar to US Dollar	1.6606	98752
+USDCAD	US Dollar to Canadian Dollar	0.9309	212766
+USDCHF	US Dollar to Swiss Franc	1.7332	62688
+NZDUSD	New Zealand Dollar to US Dollar	0.6381	357141
+EURGBP	Euro to British Pound	0.6285	735833
+EURJPY	Euro to Japanese Yen	1.8344	342330
+GBPJPY	British Pound to Japanese Yen	0.9193	677184
+EURAUD	Euro to Australian Dollar	1.5256	20539
+EURCAD	Euro to Canadian Dollar	1.8372	379720
+AUDJPY	Australian Dollar to Japanese Yen	1.8357	372434
+CADJPY	Canadian Dollar to Japanese Yen	0.9552	860355
+CHFJPY	Swiss Franc to Japanese Yen	1.5468	613222
+NZDJPY	New Zealand Dollar to Japanese Yen	1.9374	360736
+GBPCHF	British Pound to Swiss Franc	0.6851	966633
+AUDCAD	Australian Dollar to Canadian Dollar	1.2273	629289
+AUDNZD	Australian Dollar to New Zealand Dollar	1.9431	986736
+EURNZD	Euro to New Zealand Dollar	1.857	156854
