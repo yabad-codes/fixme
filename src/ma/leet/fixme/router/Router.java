@@ -24,10 +24,11 @@ public class Router implements ClientRegistrationListener {
 	 * @param client The SocketChannel representing the connected client.
 	 * @param port The port number on which the client is connected.
 	 */
-	public void onClientConnected(SocketChannel client, int port) {
+	public String onClientConnected(SocketChannel client, int port) {
 		String id = routingTable.addClient(client);
 		String clientType = (port == RouterServer.BROKER_PORT) ? "Broker" : "Market";
 		System.out.println(clientType + " client connected with ID: " + id);
+		return id;
 	}
 
 	/**

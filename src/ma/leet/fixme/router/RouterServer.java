@@ -92,7 +92,8 @@ public class RouterServer {
 				continue;
 
 			if (key.isAcceptable()) {
-				acceptConnection(key);
+				String id = acceptConnection(key);
+				// send id to client
 			} else if (key.isReadable()) {
 				key.interestOps(0);
 				threadPool.submit(() -> readMessage(key));
@@ -101,19 +102,20 @@ public class RouterServer {
 	}
 
 	/**
-	 * Accepts a new client connection and registers it for reading.
-	 * 
-	 * @param key The selection key associated with the server socket channel.
-	 * @throws IOException If an I/O error occurs while accepting the connection.
+	 * Accepts a connection from a client and returns a String representing the result.
+	 *
+	 * @param key the SelectionKey associated with the server socket
+	 * @return a String representing the result of accepting the connection
+	 * @throws IOException if an I/O error occurs while accepting the connection
 	 */
-	private void acceptConnection(SelectionKey key) throws IOException {
+	private String acceptConnection(SelectionKey key) throws IOException {
 		ServerSocketChannel serverSocket = (ServerSocketChannel) key.channel();
 		SocketChannel client = serverSocket.accept();
 		client.configureBlocking(false);
 		client.register(selector, SelectionKey.OP_READ);
 
 		int port = (serverSocket == brokerSocket) ? BROKER_PORT : MARKET_PORT;
-		listener.onClientConnected(client, port);
+		return listener.onClientConnected(client, port);
 	}
 
 	/**
