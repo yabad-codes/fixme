@@ -5,13 +5,16 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * The RouterServer class represents a server that routes messages between clients.
- * It listens on two ports, one for brokers and one for markets, and uses a thread pool
+ * The RouterServer class represents a server that routes messages between
+ * clients.
+ * It listens on two ports, one for brokers and one for markets, and uses a
+ * thread pool
  * to handle incoming client connections and messages.
  */
 public class RouterServer {
@@ -28,9 +31,13 @@ public class RouterServer {
 	private ClientRegistrationListener listener;
 
 	/**
-	 * The RouterServer class constructor initializes the server by creating server socket channels 
-	 * @param listener The client registration listener to be notified of new client registrations.
-	 * @throws IOException If an I/O error occurs while creating the server socket channels.
+	 * The RouterServer class constructor initializes the server by creating server
+	 * socket channels
+	 * 
+	 * @param listener The client registration listener to be notified of new client
+	 *                 registrations.
+	 * @throws IOException If an I/O error occurs while creating the server socket
+	 *                     channels.
 	 */
 	public RouterServer(ClientRegistrationListener listener) throws IOException {
 		this.listener = listener;
@@ -63,7 +70,8 @@ public class RouterServer {
 	 *
 	 * @param port the port number to bind the ServerSocketChannel to
 	 * @return the created ServerSocketChannel
-	 * @throws IOException if an I/O error occurs while opening the ServerSocketChannel
+	 * @throws IOException if an I/O error occurs while opening the
+	 *                     ServerSocketChannel
 	 */
 	private ServerSocketChannel createServerSocketChannel(int port) throws IOException {
 		ServerSocketChannel serverSocket = ServerSocketChannel.open();
@@ -76,9 +84,11 @@ public class RouterServer {
 
 	/**
 	 * Processes the selected keys from the selector.
-	 * This method iterates through the selected keys and performs the appropriate actions based on the key's operations.
+	 * This method iterates through the selected keys and performs the appropriate
+	 * actions based on the key's operations.
 	 * If a key is acceptable, it accepts the connection.
-	 * If a key is readable, it sets the interestOps to 0 and submits a task to the thread pool to read the message.
+	 * If a key is readable, it sets the interestOps to 0 and submits a task to the
+	 * thread pool to read the message.
 	 *
 	 * @throws IOException if an I/O error occurs
 	 */
@@ -92,8 +102,7 @@ public class RouterServer {
 				continue;
 
 			if (key.isAcceptable()) {
-				String id = acceptConnection(key);
-				// send id to client
+				acceptConnection(key);
 			} else if (key.isReadable()) {
 				key.interestOps(0);
 				threadPool.submit(() -> readMessage(key));
@@ -102,20 +111,36 @@ public class RouterServer {
 	}
 
 	/**
-	 * Accepts a connection from a client and returns a String representing the result.
-	 *
-	 * @param key the SelectionKey associated with the server socket
-	 * @return a String representing the result of accepting the connection
+	 * Accepts a connection from a client and performs necessary configurations.
+	 * 
+	 * @param key the selection key associated with the server socket channel
 	 * @throws IOException if an I/O error occurs while accepting the connection
 	 */
-	private String acceptConnection(SelectionKey key) throws IOException {
+	private void acceptConnection(SelectionKey key) throws IOException {
 		ServerSocketChannel serverSocket = (ServerSocketChannel) key.channel();
 		SocketChannel client = serverSocket.accept();
 		client.configureBlocking(false);
 		client.register(selector, SelectionKey.OP_READ);
 
 		int port = (serverSocket == brokerSocket) ? BROKER_PORT : MARKET_PORT;
-		return listener.onClientConnected(client, port);
+		String id = listener.onClientConnected(client, port);
+		sendIdToClient(client, id);
+	}
+
+	/**
+	 * Sends the given ID to the client associated with the provided SelectionKey.
+	 *
+	 * @param key The SelectionKey associated with the client.
+	 * @param id  The ID to be sent to the client.
+	 * @throws IOException If an I/O error occurs while sending the ID.
+	 */
+	private void sendIdToClient(SocketChannel client, String id) throws IOException {
+		ByteBuffer buffer = ByteBuffer.wrap(("ID:" + id).getBytes(StandardCharsets.UTF_8));
+
+		while (buffer.hasRemaining()) {
+			client.write(buffer);
+		}
+		System.out.println("Sent ID: " + id + " to client");
 	}
 
 	/**
@@ -146,7 +171,7 @@ public class RouterServer {
 	/**
 	 * Processes the received message from the client.
 	 * 
-	 * @param buffer The ByteBuffer containing the received message.
+	 * @param buffer    The ByteBuffer containing the received message.
 	 * @param bytesRead The number of bytes read from the ByteBuffer.
 	 */
 	private void processMessage(ByteBuffer buffer, int bytesRead) {
@@ -172,8 +197,10 @@ public class RouterServer {
 
 	/**
 	 * Shuts down the router server.
-	 * This method stops the thread pool, closes the selector, broker socket, and market socket.
-	 * Any IOException that occurs during the shutdown process will be printed to the standard error stream.
+	 * This method stops the thread pool, closes the selector, broker socket, and
+	 * market socket.
+	 * Any IOException that occurs during the shutdown process will be printed to
+	 * the standard error stream.
 	 */
 	private void shutdown() {
 		threadPool.shutdownNow();

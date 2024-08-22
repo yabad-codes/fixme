@@ -41,7 +41,7 @@ public class Router implements ClientRegistrationListener {
 		String clientId = routingTable.getClientId(client);
 		RoutingTable.ClientType clientType = routingTable.getClientType(clientId);
 		routingTable.removeClient(clientId);
-		System.out.println(clientType.toString() + " client with ID:" + clientId + " disconnected.");
+		System.out.println(clientType.toString() + " client with ID: " + clientId + " disconnected.");
 	}
 
 	public static void main(String[] args) {
