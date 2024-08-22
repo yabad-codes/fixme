@@ -58,6 +58,21 @@ public class RoutingTable {
 	}
 
 	/**
+	 * Retrieves the client ID associated with the given SocketChannel.
+	 *
+	 * @param client the SocketChannel for which to retrieve the client ID
+	 * @return the client ID associated with the given SocketChannel, or null if not found
+	 */
+	public String getClientId(SocketChannel client) {
+		for (Map.Entry<String, SocketChannel> entry : routingTable.entrySet()) {
+			if (entry.getValue().equals(client)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Retrieves the client type based on the provided ID.
 	 *
 	 * @param id The ID of the client.

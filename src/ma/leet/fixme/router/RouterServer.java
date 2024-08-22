@@ -132,7 +132,7 @@ public class RouterServer {
 				key.interestOps(SelectionKey.OP_READ);
 				key.selector().wakeup();
 			} else if (bytesRead == -1) {
-				System.out.println("Client disconnected");
+				listener.onClientDisconnected(client);
 				cancelKey(key);
 			}
 		} catch (IOException e) {
